@@ -1,10 +1,19 @@
 package edu.wpi.cs4518.classmate;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.LayoutInflaterCompat;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -24,6 +33,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
+    /*
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState){
+        View v = inflater.inflate(R.layout.activity_maps, container, false);
+
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        SupportMapFragment fragment = ((SupportMapFragment) getChildFragmentManager()
+                .findFragmentById(R.id.map));
+        transaction.add(R.id.map, fragment);
+        transaction.commit();
+
+        fragment.getMapAsync(this);
+
+        return v;
+    }
+    */
+
     // TODO: Connect to server, get list of study locations
     // From these locations, set markers using latlng
     // Create handler for clicking a marker, that will request info from server
@@ -36,8 +64,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
      * If Google Play services is not installed on the device, the user will be prompted to install
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
@@ -47,8 +73,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng wpiDefault = new LatLng(-34, 151);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(wpiDefault));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(17));
+
+        // Get map events and add markers to map
     }
 }
