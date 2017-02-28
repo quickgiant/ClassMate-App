@@ -19,17 +19,33 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, NavigationView.OnNavigationItemSelectedListener {
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback,
+        GoogleMap.OnMarkerClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     private GoogleMap mMap;
+    private RequestQueue mRequestQueue;
+    private JsonArrayRequest threadReq;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +69,78 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        // Set up threadReq
+        threadReq = new JsonArrayRequest("http://104.131.102.232/events",
+                new Response.Listener<JSONArray>(){
+                    @Override
+                    public void onResponse(JSONArray response){
+                        Log.e("MapServerResponse", response.toString());
+                        String id = "";
+                        double lat = -1;
+                        double lng = -1;
+
+                        // Iterate through and add markers to the map
+                        for(int i = 0; i < response.length(); i++){
+                            JSONObject responseObj = null;
+
+                            // Get object
+                            try {
+                                responseObj = response.getJSONObject(i);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            // Get ID
+                            try {
+                                id = responseObj.getString("id");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            // Get latitude
+                            try {
+                                lat = Double.parseDouble(responseObj.getString("latitude"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            // Get longitude
+                            try {
+                                lng = Double.parseDouble(responseObj.getString("longitude"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            // Set up latlng object and place marker
+                            if(lat != -1 && lng != -1){
+                                LatLng tmpLatLng = new LatLng(lat, lng);
+                                MarkerOptions tmpMarkerOptions = new MarkerOptions()
+                                    .position(tmpLatLng);
+                                Marker tmpMarker = mMap.addMarker(tmpMarkerOptions);
+                                tmpMarker.setTag(id);
+
+                                // Reset
+                                lat = -1;
+                                lng = -1;
+                                id = "";
+                            }
+                        }
+
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error){
+                        VolleyLog.e("VolleyMapServerResponse", "Error: " + error.getMessage());
+                    }
+                });
+
+        // Send request for events to the server
+        if(mRequestQueue == null){
+            mRequestQueue = Volley.newRequestQueue(getApplicationContext());
+        }
+        mRequestQueue.add(threadReq);
     }
 
     @Override
@@ -104,11 +192,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
         LatLng wpiDefault = new LatLng(42.274464, -71.807779);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(wpiDefault));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(18));
 
         // Get map events and add markers to map
+        mMap.setOnMarkerClickListener(this);
+    }
+
+    @Override
+    public boolean onMarkerClick(final Marker marker) {
+        //Try to get the specific event
+
+        // Return false to indicate the event failed.
+        //Log.e("MapsMarkerClick", "Onclick Marker failed.");
+        return false;
     }
 }
