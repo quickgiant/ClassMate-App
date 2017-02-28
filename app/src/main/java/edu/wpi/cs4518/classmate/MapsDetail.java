@@ -26,6 +26,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -34,7 +35,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class MapsDetail extends AppCompatActivity implements OnMapReadyCallback {
     TextView mDescTxt;
@@ -70,6 +74,11 @@ public class MapsDetail extends AppCompatActivity implements OnMapReadyCallback 
         mDescTxt = (TextView) findViewById(R.id.descTxt);
         mDescTxt.setMovementMethod(new ScrollingMovementMethod());
 
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.mapDetail);
+        mapFragment.getMapAsync(this);
+
         // Get id passed from map and request data from server
         String id = getIntent().getStringExtra("markerID");
         Log.e("DetailMapsID", id);
@@ -84,7 +93,69 @@ public class MapsDetail extends AppCompatActivity implements OnMapReadyCallback 
                         // Setup variables
                         String title = "";
                         String semLoc = "";
-                        SimpleDateFormat sdf = new SimpleDateFormat("MMM d, h:mm a");
+                        String sDateStr = "";
+                        String eDateStr = "";
+                        double lat = -1;
+                        double lng = -1;
+                        String startDate;
+                        String endDate;
+
+                        // Get values from json object and set in layout
+                        // Get title
+                        try {
+                            title = response.getString("title");
+                            mDetailTitle.setText(title);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        // Get semantic location
+                        try {
+                            semLoc = response.getString("semanticLocation");
+                            mLocationTxt.setText("Location" + semLoc);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        // Get time range
+                        try {
+                            sDateStr = response.getString("startTime");
+                            startDate = convertDateFormat(sDateStr);
+
+                            // Get end date
+                            try {
+                                eDateStr = response.getString("endTime");
+                                endDate = convertDateFormat(eDateStr);
+
+                                mTimeTxt.setText("Time: " + startDate + " - " + endDate);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        // Get latitude
+                        try {
+                            lat = Double.parseDouble(response.getString("latitude"));
+
+                            // Get longitude
+                            try {
+                                lng = Double.parseDouble(response.getString("longitude"));
+
+                                // Set up latlng and adjust map
+                                LatLng studyLoc = new LatLng(lat, lng);
+                                mMap.moveCamera(CameraUpdateFactory.newLatLng(studyLoc));
+                                mMap.animateCamera(CameraUpdateFactory.zoomTo(18));
+                                mMap.addMarker(new MarkerOptions().position(studyLoc));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener(){
@@ -107,5 +178,11 @@ public class MapsDetail extends AppCompatActivity implements OnMapReadyCallback 
 
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(wpiDefault));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(18));
+    }
+
+    private String convertDateFormat(String input) throws ParseException{
+        Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US).parse(input);
+        return new SimpleDateFormat("M/d, h:mm a").format(date);
+        //return new SimpleDateFormat("MMM d, h:mm a").format(date);
     }
 }
