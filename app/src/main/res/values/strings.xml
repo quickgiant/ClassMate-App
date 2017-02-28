@@ -17,4 +17,6 @@
 
     <string name="add_to_calendar_button_text">Add to Calendar</string>
     <string name="attending_button_text">I\'m Going</string>
+
+    <string name="users_attending">%1d Users Attending</string>
 </resources>

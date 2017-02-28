@@ -1,7 +1,16 @@
 package edu.wpi.cs4518.classmate;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class ClassMateEvent {
 
@@ -14,7 +23,7 @@ public class ClassMateEvent {
     private Date startTime;
     private Date endTime;
 
-    public ClassMateEvent(
+    ClassMateEvent(
             String id,
             String title,
             String semanticLocation,
@@ -34,45 +43,75 @@ public class ClassMateEvent {
         this.endTime = endTime;
     }
 
-    public String getId() {
+    ClassMateEvent(JSONObject eventJSON) throws JSONException {
+        this.id = eventJSON.getString("id");
+        this.title = eventJSON.getString("title");
+        this.semanticLocation = eventJSON.getString("semanticLocation");
+        this.latitude = eventJSON.getDouble("latitude");
+        this.longitude = eventJSON.getDouble("longitude");
+        this.usersAttending = eventJSON.getInt("usersAttending");
+        try {
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            this.startTime = dateFormat.parse(eventJSON.getString("startTime"));
+            this.endTime = dateFormat.parse(eventJSON.getString("endTime"));
+        }
+        catch(ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    String getId() {
         return id;
     }
 
-    public String getTitle() {
+    String getTitle() {
         return title;
     }
 
-    public String getSemanticLocation() {
+    String getSemanticLocation() {
         return semanticLocation;
     }
 
-    public double getLatitude() {
+    double getLatitude() {
         return latitude;
     }
 
-    public double getLongitude() {
+    double getLongitude() {
         return longitude;
     }
 
-    public int getUsersAttending() {
+    int getUsersAttending() {
         return usersAttending;
     }
 
-    public Date getStartTime() {
+    Date getStartTime() {
         return startTime;
     }
 
-    public Date getEndTime() {
+    Date getEndTime() {
         return endTime;
     }
 
-    public String getDateString() {
-        return new SimpleDateFormat("MMMM dd, yyyy").format(startTime);
+    String getDateString() {
+        return new SimpleDateFormat("MMMM dd, yyyy", Locale.US).format(startTime);
     }
 
-    public String getTimeString() {
-        String startTimeString = new SimpleDateFormat("hh:mm a").format(startTime);
-        String endTimeString = new SimpleDateFormat("hh:mm a").format(endTime);
+    String getTimeString() {
+        String startTimeString = new SimpleDateFormat("hh:mm a", Locale.US).format(startTime);
+        String endTimeString = new SimpleDateFormat("hh:mm a", Locale.US).format(endTime);
         return startTimeString + " - " + endTimeString;
+    }
+
+    static List<ClassMateEvent> parseJSONArray(JSONArray response) {
+        List<ClassMateEvent> eventList = new ArrayList<ClassMateEvent>();
+        for(int i = 0; i < response.length(); i++) {
+            try{
+                eventList.add(new ClassMateEvent(response.getJSONObject(i)));
+            }
+            catch(JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return eventList;
     }
 }
