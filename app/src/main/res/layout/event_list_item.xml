@@ -17,10 +17,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/eventTitle"
+                android:id="@+id/event_title"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:fontFamily="sans-serif"
-                android:text="Event Title"
+                android:text="@string/event_title_placeholder"
                 android:textSize="20sp"
                 android:paddingBottom="10dp" />
 
@@ -36,20 +36,18 @@
                     android:layout_weight="1">
 
                     <TextView
-                        android:text="DayOfWeek, Month DD"
+                        android:text="@string/date_placeholder"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/date_view"
-                        android:layout_weight="1"
                         android:paddingTop="4dp"
                         android:paddingBottom="4dp" />
 
                     <TextView
-                        android:text="X:00 AM - Y:00 PM"
+                        android:text="@string/time_range_placeholder"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/time_view"
-                        android:layout_weight="1"
                         android:textSize="14sp"
                         android:paddingTop="4dp"
                         android:paddingBottom="4dp" />
@@ -62,21 +60,19 @@
                     android:layout_weight="1">
 
                     <TextView
-                        android:text="X People Going"
+                        android:text="@string/users_attending_placeholder"
                         android:layout_height="wrap_content"
                         android:id="@+id/users_attending_view"
-                        android:layout_weight="1"
                         android:textAlignment="textEnd"
                         android:layout_width="match_parent"
                         android:paddingTop="4dp"
                         android:paddingBottom="4dp" />
 
                     <TextView
-                        android:text="Semantic Location"
+                        android:text="@string/semantic_location_placeholder"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/semantic_location_view"
-                        android:layout_weight="1"
                         android:textAlignment="textEnd"
                         android:paddingTop="4dp"
                         android:paddingBottom="4dp" />
@@ -91,7 +87,7 @@
                 android:paddingTop="15dp">
 
                 <Button
-                    android:text="Add to Calendar"
+                    android:text="@string/add_to_calendar_button_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/add_to_calendar_button_view"
@@ -103,7 +99,7 @@
                     android:padding="0dp" />
 
                 <Button
-                    android:text="I'm Going"
+                    android:text="@string/attending_button_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/attending_button_view"
