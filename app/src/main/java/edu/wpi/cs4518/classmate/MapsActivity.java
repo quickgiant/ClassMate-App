@@ -202,7 +202,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public boolean onMarkerClick(final Marker marker) {
-        //Try to get the specific event
+        if((String) marker.getTag() != ""){
+            Intent intent;
+            intent = new Intent(this, MapsDetail.class);
+            intent.putExtra("markerID", (String) marker.getTag());
+            startActivity(intent);
+        }
 
         // Return false to indicate the event failed.
         //Log.e("MapsMarkerClick", "Onclick Marker failed.");
