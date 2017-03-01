@@ -182,9 +182,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        LatLng wpiDefault = new LatLng(42.274464, -71.807779);
+        LatLng wpiDefault = new LatLng(42.274469, -71.807770);
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(16.5f));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(wpiDefault));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(18));
 
         // Get map events and add markers to map
         mMap.setOnMarkerClickListener(this);
