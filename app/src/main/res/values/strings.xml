@@ -19,4 +19,7 @@
     <string name="attending_button_text">I\'m Going</string>
 
     <string name="users_attending">%1d Users Attending</string>
+    <string name="new_event">New Event</string>
+
+    <string name="navigation_back_content_description">Back</string>
 </resources>

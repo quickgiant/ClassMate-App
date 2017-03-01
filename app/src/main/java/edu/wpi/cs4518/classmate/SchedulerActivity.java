@@ -2,6 +2,7 @@ package edu.wpi.cs4518.classmate;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 
 import com.android.volley.RequestQueue;
@@ -67,6 +69,15 @@ public class SchedulerActivity extends AppCompatActivity
             @Override
             public void onRefresh() {
                 retrieveEvents();
+            }
+        });
+
+        // Add listener to FAB
+        FloatingActionButton addEventButton = (FloatingActionButton) findViewById(R.id.add_event_button);
+        addEventButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SchedulerActivity.this, NewEventActivity.class));
             }
         });
     }
