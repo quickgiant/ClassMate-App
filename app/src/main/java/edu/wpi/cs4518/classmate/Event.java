@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class ClassMateEvent {
+public class Event {
 
     private String id;
     private String title;
@@ -23,7 +23,7 @@ public class ClassMateEvent {
     private Date startTime;
     private Date endTime;
 
-    ClassMateEvent(
+    Event(
             String id,
             String title,
             String semanticLocation,
@@ -43,7 +43,7 @@ public class ClassMateEvent {
         this.endTime = endTime;
     }
 
-    ClassMateEvent(JSONObject eventJSON) throws JSONException {
+    Event(JSONObject eventJSON) throws JSONException {
         this.id = eventJSON.getString("id");
         this.title = eventJSON.getString("title");
         this.semanticLocation = eventJSON.getString("semanticLocation");
@@ -102,11 +102,11 @@ public class ClassMateEvent {
         return startTimeString + " - " + endTimeString;
     }
 
-    static List<ClassMateEvent> parseJSONArray(JSONArray response) {
-        List<ClassMateEvent> eventList = new ArrayList<ClassMateEvent>();
+    static List<Event> parseJSONArray(JSONArray response) {
+        List<Event> eventList = new ArrayList<Event>();
         for(int i = 0; i < response.length(); i++) {
             try{
-                eventList.add(new ClassMateEvent(response.getJSONObject(i)));
+                eventList.add(new Event(response.getJSONObject(i)));
             }
             catch(JSONException e) {
                 e.printStackTrace();

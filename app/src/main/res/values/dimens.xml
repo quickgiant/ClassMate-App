@@ -6,4 +6,10 @@
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="discussion_postText">18dp</dimen>
+    <dimen name="discussion_commentText">16dp</dimen>
+    <dimen name="discussion_timestamp">12dp</dimen>
+    <dimen name="discussion_author">16dp</dimen>
+    <dimen name="discussion_commentAuthor">12dp</dimen>
+    <dimen name="discussion_category">14dp</dimen>
 </resources>

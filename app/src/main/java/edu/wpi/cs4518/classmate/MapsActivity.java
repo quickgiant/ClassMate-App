@@ -151,7 +151,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         if (id == R.id.nav_scheduler) {
             // Switch to scheduler
-            intent = new Intent(this, EventsActivity.class);
+            intent = new Intent(this, SchedulerActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_discussion) {
             // Switch to discussion

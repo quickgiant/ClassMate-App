@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/discussion_list_row_selector"
+    android:padding="8dp"
+    >
+
+    <!-- Post Text -->
+    <TextView
+        android:id="@+id/commentText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="@dimen/discussion_commentText" />
+
+    <!-- Author -->
+
+    <TextView
+        android:id="@+id/commentAuthor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/commentText"
+        android:layout_marginRight="8dp"
+        android:textSize="@dimen/discussion_commentAuthor"
+        android:textStyle="italic"/>
+
+    <!-- Category -->
+    <TextView
+        android:id="@+id/commentTimestamp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/commentAuthor"
+        android:layout_marginTop="1dp"
+        android:textSize="@dimen/discussion_timestamp" />
+
+</RelativeLayout>

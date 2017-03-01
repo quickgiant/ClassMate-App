@@ -12,13 +12,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
 
-public class ClassMateEventAdapter extends ArrayAdapter<ClassMateEvent> {
-    public ClassMateEventAdapter(Context context, List<ClassMateEvent> eventArray) {
+public class EventAdapter extends ArrayAdapter<Event> {
+    public EventAdapter(Context context, List<Event> eventArray) {
         super(context, R.layout.event_list_item, eventArray);
     }
 
@@ -38,7 +35,7 @@ public class ClassMateEventAdapter extends ArrayAdapter<ClassMateEvent> {
         TextView usersAttendingView = (TextView) view.findViewById(R.id.users_attending_view);
         TextView semanticLocationView = (TextView) view.findViewById(R.id.semantic_location_view);
 
-        final ClassMateEvent event = getItem(position);
+        final Event event = getItem(position);
         if(event != null) {
             eventTitleView.setText(event.getTitle());
             dateView.setText(event.getDateString());
@@ -47,7 +44,7 @@ public class ClassMateEventAdapter extends ArrayAdapter<ClassMateEvent> {
             semanticLocationView.setText(event.getSemanticLocation());
         }
         else {
-            throw new NullPointerException("ClassMateEventAdapter missing event object at" +
+            throw new NullPointerException("EventAdapter missing event object at" +
             " position " + position);
         }
 
@@ -67,7 +64,7 @@ public class ClassMateEventAdapter extends ArrayAdapter<ClassMateEvent> {
         return view;
     }
 
-    public void handleAddToCalendarClick(ClassMateEvent event) {
+    public void handleAddToCalendarClick(Event event) {
         Intent intent = new Intent(Intent.ACTION_INSERT)
                 .setData(CalendarContract.Events.CONTENT_URI)
                 .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, event.getStartTime().getTime())
@@ -77,7 +74,7 @@ public class ClassMateEventAdapter extends ArrayAdapter<ClassMateEvent> {
         getContext().startActivity(intent);
     }
 
-    public void handleAttendingClick(ClassMateEvent event) {
+    public void handleAttendingClick(Event event) {
         // TODO: Increment attending and submit to server
     }
 }

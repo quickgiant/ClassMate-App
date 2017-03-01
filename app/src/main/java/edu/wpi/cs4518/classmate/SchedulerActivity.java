@@ -3,8 +3,6 @@ package edu.wpi.cs4518.classmate;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,9 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.android.volley.RequestQueue;
@@ -23,29 +19,24 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventsActivity extends AppCompatActivity
+public class SchedulerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private RequestQueue mRequestQueue;
-    private List<ClassMateEvent> mClassMateEvents;
-    private ClassMateEventAdapter mEventArrayAdapter;
+    private List<Event> mEvents;
+    private EventAdapter mEventArrayAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_scheduler);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if(mRequestQueue == null){
@@ -62,9 +53,9 @@ public class EventsActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         // Initialize list view for events
-        ListView eventsView = (ListView) findViewById(R.id.events_view);
-        mClassMateEvents = new ArrayList<ClassMateEvent>();
-        mEventArrayAdapter = new ClassMateEventAdapter(this, mClassMateEvents);
+        ListView eventsView = (ListView) findViewById(R.id.scheduler_view);
+        mEvents = new ArrayList<Event>();
+        mEventArrayAdapter = new EventAdapter(this, mEvents);
         eventsView.setAdapter(mEventArrayAdapter);
 
         // Pull latest events from the server
@@ -103,6 +94,8 @@ public class EventsActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_discussion) {
             // Switch to discussion
+            intent = new Intent(this, DiscussionActivity.class);
+            startActivity(intent);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -115,9 +108,9 @@ public class EventsActivity extends AppCompatActivity
                     @Override
                     public void onResponse(JSONArray response){
                         Log.e("EventServerResponse", response.toString());
-                        mClassMateEvents = ClassMateEvent.parseJSONArray(response);
+                        mEvents = Event.parseJSONArray(response);
                         mEventArrayAdapter.clear();
-                        mEventArrayAdapter.addAll(mClassMateEvents);
+                        mEventArrayAdapter.addAll(mEvents);
                         mEventArrayAdapter.notifyDataSetChanged();
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
