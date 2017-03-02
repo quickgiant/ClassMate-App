@@ -1,48 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/discussion_list_row_selector"
-    android:padding="8dp">
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp">
 
-    <!-- Post Text -->
-    <TextView
-        android:id="@+id/postText"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="8dp"
-        android:textSize="@dimen/discussion_postText"
-        />
+        android:layout_height="match_parent"
+        android:background="@drawable/discussion_list_row_selector"
+        android:padding="8dp">
 
-    <!-- Author -->
-    <TextView
-        android:id="@+id/author"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/postText"
-        android:layout_marginTop="8dp"
-        android:textSize="@dimen/discussion_author"
-        android:textStyle="italic"
-        />
+        <!-- Post Text -->
+        <TextView
+            android:id="@+id/postText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="8dp"
+            android:textSize="@dimen/discussion_postText"
+            />
 
-    <!-- Category -->
-    <TextView
-        android:id="@+id/category"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/author"
-        android:layout_marginTop="2dp"
-        android:textSize="@dimen/discussion_category" />
+        <!-- Author -->
+        <TextView
+            android:id="@+id/author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/postText"
+            android:layout_marginTop="8dp"
+            android:textSize="@dimen/discussion_author"
+            android:textStyle="italic"
+            />
 
-    <!-- Timestamp -->
-    <TextView
-        android:id="@+id/timestamp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/category"
-        android:layout_marginTop="2dp"
-        android:textSize="@dimen/discussion_timestamp" />
+        <!-- Category -->
+        <TextView
+            android:id="@+id/category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/author"
+            android:layout_marginTop="2dp"
+            android:textSize="@dimen/discussion_category" />
 
-</RelativeLayout>
+        <!-- Timestamp -->
+        <TextView
+            android:id="@+id/timestamp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/category"
+            android:layout_marginTop="2dp"
+            android:textSize="@dimen/discussion_timestamp" />
+
+    </RelativeLayout>
+
+</FrameLayout>

@@ -39,6 +39,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class MapsDetail extends AppCompatActivity implements OnMapReadyCallback {
     TextView mDetailTitle;
@@ -92,8 +93,7 @@ public class MapsDetail extends AppCompatActivity implements OnMapReadyCallback 
                         String eDateStr = "";
                         double lat = -1;
                         double lng = -1;
-                        String startDate;
-                        String endDate;
+                        String dateString;
 
                         // Get values from json object and set in layout
                         // Get title
@@ -113,22 +113,17 @@ public class MapsDetail extends AppCompatActivity implements OnMapReadyCallback 
                         // Get time range
                         try {
                             sDateStr = response.getString("startTime");
-                            startDate = convertDateFormat(sDateStr);
 
                             // Get end date
                             try {
                                 eDateStr = response.getString("endTime");
-                                endDate = convertDateFormat(eDateStr);
+                                dateString = convertDateFormat(sDateStr, eDateStr);
 
-                                mTimeTxt.setText("Time: " + startDate + " - " + endDate);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            } catch (ParseException e) {
+                                mTimeTxt.setText("Time: " + dateString);
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (ParseException e) {
                             e.printStackTrace();
                         }
 
@@ -175,9 +170,19 @@ public class MapsDetail extends AppCompatActivity implements OnMapReadyCallback 
         mMap.animateCamera(CameraUpdateFactory.zoomTo(18));
     }
 
-    private String convertDateFormat(String input) throws ParseException{
-        Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US).parse(input);
-        return new SimpleDateFormat("M/d, h:mm a").format(date);
-        //return new SimpleDateFormat("MMM d, h:mm a").format(date);
+    private String convertDateFormat(String startDateString, String endDateString) throws ParseException{
+        SimpleDateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+        Date startDate = dateParser.parse(startDateString);
+        Date endDate = dateParser.parse(endDateString);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd", Locale.US);
+        dateFormat.setTimeZone(TimeZone.getDefault());
+        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a", Locale.US);
+        timeFormat.setTimeZone(TimeZone.getDefault());
+
+        String dateString = dateFormat.format(startDate);
+        dateString += ", " + timeFormat.format(startDate);
+        dateString += " - " + timeFormat.format(endDate);
+        return dateString;
     }
 }
