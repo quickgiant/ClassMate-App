@@ -155,6 +155,7 @@ public class NewEventActivity extends AppCompatActivity {
             public Dialog onCreateDialog(Bundle savedInstanceState) {
                 // Use the current time as the default values for the picker
                 final Calendar c = Calendar.getInstance();
+                c.setTimeZone(TimeZone.getDefault());
                 int hour = c.get(Calendar.HOUR_OF_DAY);
                 int minute = c.get(Calendar.MINUTE);
 

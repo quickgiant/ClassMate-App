@@ -138,7 +138,7 @@ public class MapsDetail extends AppCompatActivity implements OnMapReadyCallback 
                                 // Set up latlng and adjust map
                                 LatLng studyLoc = new LatLng(lat, lng);
                                 mMap.moveCamera(CameraUpdateFactory.newLatLng(studyLoc));
-                                mMap.animateCamera(CameraUpdateFactory.zoomTo(18));
+                                mMap.moveCamera(CameraUpdateFactory.zoomTo(18));
                                 mMap.addMarker(new MarkerOptions().position(studyLoc));
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -167,7 +167,7 @@ public class MapsDetail extends AppCompatActivity implements OnMapReadyCallback 
         mMap = googleMap;
 
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(wpiDefault));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(18));
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(18));
     }
 
     private String convertDateFormat(String startDateString, String endDateString) throws ParseException{
