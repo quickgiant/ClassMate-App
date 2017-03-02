@@ -80,46 +80,7 @@ public class DiscussionActivity extends AppCompatActivity
         pDialog.setMessage("Loading...");
         pDialog.show();
 
-        // Make JSON request to URL, add threads to list, map threads to
-        // lists of comments in the hashmap (this can be changed to Strings/Integers)
-        JsonArrayRequest threadReq = new JsonArrayRequest(url,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        hidePDialog();
-
-                        // Parsing json
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-
-                                JSONObject obj = response.getJSONObject(i);
-                                Thread thread = new Thread(obj);
-                                listDataHeader.add(thread);
-                                listDataChild.put(thread, thread.getComments());
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-
-                        // notifying list adapter about data changes
-                        // so that it renders the list view with updated data
-                        adapter.notifyDataSetChanged();
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                hidePDialog();
-
-            }
-        });
-
-        // Make volley request to update the threads
-        if (mRequestQueue == null) {
-            mRequestQueue = Volley.newRequestQueue(getApplicationContext());
-        }
-        mRequestQueue.add(threadReq);
+        retrieveThreads();
 
         // Listview Group click listener
         // Occurs on expand & collapse
@@ -255,6 +216,51 @@ public class DiscussionActivity extends AppCompatActivity
         }
     }
 
+    public void retrieveThreads() {
+        // Make JSON request to URL, add threads to list, map threads to
+        // lists of comments in the hashmap (this can be changed to Strings/Integers)
+        JsonArrayRequest threadReq = new JsonArrayRequest(url,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        hidePDialog();
+                        listDataHeader.clear();
+                        listDataChild.clear();
+
+                        // Parsing json
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+
+                                JSONObject obj = response.getJSONObject(i);
+                                Thread thread = new Thread(obj);
+                                listDataHeader.add(thread);
+                                listDataChild.put(thread, thread.getComments());
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                        // notifying list adapter about data changes
+                        // so that it renders the list view with updated data
+                        adapter.notifyDataSetChanged();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                hidePDialog();
+
+            }
+        });
+
+        // Make volley request to update the threads
+        if (mRequestQueue == null) {
+            mRequestQueue = Volley.newRequestQueue(getApplicationContext());
+        }
+        mRequestQueue.add(threadReq);
+    }
+
     // Function for adding Comments
     // This will make POST calls
     public boolean addCommentsDialog(final int groupP, int childP) {
@@ -287,6 +293,7 @@ public class DiscussionActivity extends AppCompatActivity
                     public void onResponse(String response){
                         Toast.makeText(getApplicationContext(), "Comment added", Toast.LENGTH_SHORT)
                                 .show();
+                        retrieveThreads();
                     }
                 },
                 new Response.ErrorListener(){
