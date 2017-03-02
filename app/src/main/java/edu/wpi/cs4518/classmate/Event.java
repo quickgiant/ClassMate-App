@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class Event {
 
@@ -93,12 +94,16 @@ public class Event {
     }
 
     String getDateString() {
-        return new SimpleDateFormat("MMMM dd, yyyy", Locale.US).format(startTime);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy", Locale.US);
+        dateFormat.setTimeZone(TimeZone.getDefault());
+        return dateFormat.format(startTime);
     }
 
     String getTimeString() {
-        String startTimeString = new SimpleDateFormat("hh:mm a", Locale.US).format(startTime);
-        String endTimeString = new SimpleDateFormat("hh:mm a", Locale.US).format(endTime);
+        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a", Locale.US);
+        timeFormat.setTimeZone(TimeZone.getDefault());
+        String startTimeString = timeFormat.format(startTime);
+        String endTimeString = timeFormat.format(endTime);
         return startTimeString + " - " + endTimeString;
     }
 

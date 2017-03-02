@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 public class Thread {
-    private int id;
+    private String id;
     private String postText;
     private String timestamp;
     private String author;
@@ -24,7 +24,7 @@ public class Thread {
         this.comments = new ArrayList<Comment>();
 
         try {
-            this.id = jObject.getInt("id");
+            this.id = jObject.getString("id");
             this.postText = jObject.getString("postText");
             this.timestamp = jObject.getString("timestamp");
             this.author = jObject.getString("author");
@@ -50,7 +50,7 @@ public class Thread {
 
     }
 
-    public int getId() {return id;}
+    public String getId() {return id;}
 
     public String getPostText() {
         return this.postText;

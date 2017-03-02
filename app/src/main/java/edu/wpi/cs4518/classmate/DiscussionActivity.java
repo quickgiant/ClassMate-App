@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -25,11 +26,15 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 public class DiscussionActivity extends AppCompatActivity
@@ -264,6 +269,7 @@ public class DiscussionActivity extends AppCompatActivity
             public void onClick(DialogInterface dialog, int id) {
                 String etv = edittext.getText().toString();
                 Thread t = listDataHeader.get(groupP);
+                sendComment(etv, t);
                 dialog.cancel();
             }
         });
@@ -273,13 +279,30 @@ public class DiscussionActivity extends AppCompatActivity
         return false;
     }
 
-    // Post call
-    public static String POST(String url, Thread thread) {
-        InputStream inputStream = null;
-        String results = "";
-        // try {
-        // HttpClient
-        // }
-        return results;
+    public void sendComment(final String comment, Thread thread) {
+        StringRequest postCommentRequest = new StringRequest(Request.Method.POST,
+                "http://104.131.102.232/forum/threads/" + thread.getId() + "/comment",
+                new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response){
+                        Toast.makeText(getApplicationContext(), "Comment added", Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error){
+                        VolleyLog.e("VolleyEventServerResponse", "Error: " + error.getMessage());
+                    }
+                }) {
+
+            protected Map<String, String> getParams() throws com.android.volley.AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("commentText", comment);
+                params.put("author", "ClassMate");
+                return params;
+            };
+        };
+        mRequestQueue.add(postCommentRequest);
     }
 }

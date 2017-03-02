@@ -43,6 +43,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 import static android.R.attr.onClick;
 
@@ -255,10 +256,12 @@ public class NewEventActivity extends AppCompatActivity {
         }
 
         final GregorianCalendar startTimeCalendar = (GregorianCalendar) mDateCalendar.clone();
+        startTimeCalendar.setTimeZone(TimeZone.getDefault());
         startTimeCalendar.set(Calendar.HOUR, mStartTimeHour);
         startTimeCalendar.set(Calendar.MINUTE, mStartTimeMinute);
 
         final GregorianCalendar endTimeCalendar = (GregorianCalendar) mDateCalendar.clone();
+        endTimeCalendar.setTimeZone(TimeZone.getDefault());
         endTimeCalendar.set(Calendar.HOUR, mEndTimeHour);
         endTimeCalendar.set(Calendar.MINUTE, mEndTimeMinute);
 
@@ -266,7 +269,7 @@ public class NewEventActivity extends AppCompatActivity {
             endTimeCalendar.roll(Calendar.DAY_OF_MONTH, true);
         }
 
-        StringRequest myReq = new StringRequest(Request.Method.POST,
+        StringRequest postEventRequest = new StringRequest(Request.Method.POST,
                 "http://104.131.102.232/events",
                 new Response.Listener<String>(){
                     @Override
@@ -296,6 +299,6 @@ public class NewEventActivity extends AppCompatActivity {
             };
         };
 
-        mRequestQueue.add(myReq);
+        mRequestQueue.add(postEventRequest);
     }
 }
