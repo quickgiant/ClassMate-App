@@ -10,16 +10,20 @@
     <string name="action_settings">Settings</string>
 
     <string name="event_title_placeholder">Event Title</string>
-    <string name="date_placeholder">February 29, 2017</string>
+    <string name="date_placeholder">January 1, 2017</string>
+    <string name="time_placeholder">12:00 PM</string>
     <string name="time_range_placeholder">12:00 AM - 12:00 PM</string>
     <string name="users_attending_placeholder">0 People Going</string>
-    <string name="semantic_location_placeholder">Event Location</string>
+    <string name="semantic_location_placeholder">Location Name</string>
 
     <string name="add_to_calendar_button_text">Add to Calendar</string>
     <string name="attending_button_text">I\'m Going</string>
+    <string name="add_map_location_text">Add Map Location</string>
 
     <string name="users_attending">%1d Users Attending</string>
     <string name="new_event">New Event</string>
 
     <string name="navigation_back_content_description">Back</string>
+
+    <string name="finished">Finished</string>
 </resources>

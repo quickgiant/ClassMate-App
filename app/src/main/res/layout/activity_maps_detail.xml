@@ -44,34 +44,6 @@
         android:id="@+id/timeTxt"
         android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
-    <TextView
-        android:text="Description:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/timeTxt"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="16sp"
-        android:id="@+id/descTitle"
-        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
-
-    <TextView
-        android:text=""
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:width="350sp"
-        android:height="100sp"
-        android:background="@drawable/desc_background"
-        android:padding="2sp"
-        android:layout_marginLeft="16sp"
-        android:layout_marginRight="16sp"
-        android:id="@+id/descTxt"
-        android:textAppearance="@android:style/TextAppearance.Small"
-        android:layout_below="@+id/descTitle"
-        android:maxLines="128"
-        android:scrollbars="vertical"
-        android:layout_alignParentStart="true" />
-
     <fragment
         android:id="@+id/mapDetail"
         android:name="com.google.android.gms.maps.SupportMapFragment"

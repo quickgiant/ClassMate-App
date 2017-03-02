@@ -24,7 +24,9 @@
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin" >
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true" >
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -33,24 +35,71 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Title"
+                android:hint="@string/event_title_placeholder"
                 android:inputType="text"
                 android:id="@+id/title_field"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:singleLine="true" />
 
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Location Name"
-                android:id="@+id/semantic_location_field" />
+                android:hint="@string/semantic_location_placeholder"
+                android:id="@+id/semantic_location_field"
+                android:inputType="text"
+                android:singleLine="true" />
+
         </android.support.design.widget.TextInputLayout>
 
+        <Button
+            android:text="@string/add_map_location_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_map_location_button"
+            style="@style/Widget.AppCompat.Button.Colored" />
+
+        <Button
+            android:text="@string/date_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:id="@+id/date_view"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:fontFamily="sans-serif"
+            android:textSize="18sp"
+            android:padding="5dp" />
+
+        <Button
+            android:text="@string/time_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/start_time_view"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:textAlignment="textEnd"
+            android:textAllCaps="false"
+            android:fontFamily="sans-serif"
+            android:textSize="18sp"
+            android:padding="5dp" />
+
+        <Button
+            android:text="@string/time_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/end_time_view"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:textAlignment="textEnd"
+            android:textAllCaps="false"
+            android:fontFamily="sans-serif"
+            android:textSize="18sp"
+            android:padding="5dp" />
 
     </LinearLayout>
 

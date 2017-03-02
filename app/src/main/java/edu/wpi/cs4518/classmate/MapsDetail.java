@@ -41,7 +41,6 @@ import java.util.Date;
 import java.util.Locale;
 
 public class MapsDetail extends AppCompatActivity implements OnMapReadyCallback {
-    TextView mDescTxt;
     TextView mDetailTitle;
     TextView mLocationTxt;
     TextView mTimeTxt;
@@ -69,10 +68,6 @@ public class MapsDetail extends AppCompatActivity implements OnMapReadyCallback 
         mDetailTitle = (TextView) findViewById(R.id.detailTitle);
         mLocationTxt = (TextView) findViewById(R.id.locationTxt);
         mTimeTxt = (TextView) findViewById(R.id.timeTxt);
-
-        // Set description scrollable
-        mDescTxt = (TextView) findViewById(R.id.descTxt);
-        mDescTxt.setMovementMethod(new ScrollingMovementMethod());
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -111,7 +106,7 @@ public class MapsDetail extends AppCompatActivity implements OnMapReadyCallback 
                         // Get semantic location
                         try {
                             semLoc = response.getString("semanticLocation");
-                            mLocationTxt.setText("Location" + semLoc);
+                            mLocationTxt.setText("Location: " + semLoc);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
