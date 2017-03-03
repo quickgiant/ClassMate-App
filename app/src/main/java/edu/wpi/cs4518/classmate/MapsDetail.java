@@ -172,6 +172,7 @@ public class MapsDetail extends AppCompatActivity implements OnMapReadyCallback 
 
     private String convertDateFormat(String startDateString, String endDateString) throws ParseException{
         SimpleDateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+        dateParser.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date startDate = dateParser.parse(startDateString);
         Date endDate = dateParser.parse(endDateString);
 

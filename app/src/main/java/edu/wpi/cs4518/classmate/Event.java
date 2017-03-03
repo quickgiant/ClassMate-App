@@ -53,6 +53,7 @@ public class Event {
         this.usersAttending = eventJSON.getInt("usersAttending");
         try {
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
             this.startTime = dateFormat.parse(eventJSON.getString("startTime"));
             this.endTime = dateFormat.parse(eventJSON.getString("endTime"));
         }
